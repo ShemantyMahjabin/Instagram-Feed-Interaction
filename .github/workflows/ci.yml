@@ -1,0 +1,45 @@
+name: Project CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Job 1: Check the Backend
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install
+      - name: Check Backend for Errors
+        run: |
+          cd backend
+          # This just checks if the code compiles/has no syntax errors
+          node --check server.js
+
+  # Job 2: Check the Frontend
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+      - name: Try Building Frontend
+        run: |
+          cd frontend
+          npm run build
