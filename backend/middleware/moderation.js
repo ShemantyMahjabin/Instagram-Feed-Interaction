@@ -1,7 +1,7 @@
-const bannedWords = ['hate', 'kill', 'slur1', 'slur2']; // expand list
+const bannedWords = ['hate', 'kill', 'stupid', 'toxic', 'trash'];
 
 const checkModeration = (req, res, next) => {
-  const text = req.body.text.toLowerCase();
+  const text = req.body.text.toLowerCase().trim();
   const found = bannedWords.some(word => text.includes(word));
   if (found) {
     return res.status(400).json({
